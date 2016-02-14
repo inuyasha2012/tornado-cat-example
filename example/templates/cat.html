@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="{{ static_url("css/bootstrap.css") }}" rel="stylesheet">
+    <link href="{{ static_url("css/main.css") }}" rel="stylesheet">
+    <script src="{{ static_url("js/jquery-1.12.0.js") }}"></script>
+    <script src="{{ static_url("js/cat.js") }}"></script>
+    <script src="{{ static_url("js/bootstrap.js") }}"></script>
+</head>
+<body>
+<div class="container">
+    <form action="" method="post" class="form-que">
+        <div class="link">
+            <ul class="nav nav-pills">
+                <li role="presentation"><a href="/">回到首页</a></li>
+                <li role="presentation"><a href="/cat/{{ q_id }}">重做测验</a></li>
+            </ul>
+        </div>
+        <div class="progress progress-item">
+            <div class="progress-bar item-bar" role="progressbar"
+                 aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: {{ current_progress }}%">
+                <span class="current">第{{ current_step }}题</span>
+            </div>
+        </div>
+        <div class="well">
+            {{ que.question }}
+        </div>
+        {% module xsrf_form_html() %}
+        <div>
+            <ul class="list-choice-group">
+                {% for i, choice in enumerate(que.choice_text.split("|")) %}
+                <li class="list-choice" id={{ i }}>
+                    {{ choice }}
+                </li>
+                {% end %}
+                <input type="hidden" name="question">
+            </ul>
+        </div>
+        <div class="que-btn">
+            <button type="button" class="btn btn-primary btn-block">
+                提交
+            </button>
+        </div>
+        <div class="progress progress-time">
+            <div class="progress-bar progress-bar-striped active time-bar"
+                 role="progressbar" aria-valuenow="{{ second }}"
+                 aria-valuemin="0" aria-valuemax="{{ second }}" style="width: 100%">
+                <span class="time">{{ second }}秒</span>
+            </div>
+        </div>
+    </form>
+</div>
+<div id="count-down">{{ second }}</div>
+<div id="total">{{ total_step_count }}</div>
+<div id="current">{{ current_step }}</div>
+{% if que.thresholds %}
+<div id="que">当前试题的区分度为{{ round(que.slop, 2) }}, 难度为{{ que.thresholds }}</div>
+{% else %}
+<div id="que">当前试题的区分度为{{ round(que.slop, 2) }}, 难度为{{ round(que.threshold, 2) }}</div>
+{% end %}
+<div id="choice">
+    {% for i, value in enumerate(que.choice_value.split("|")) %}
+    第{{ i + 1 }}个选项的得分是{{ value }}分;
+    {% end %}
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="SmallModalLabel">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-body">
+                时间到,请点击确定转到下一题
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary btn-sm" type="button">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

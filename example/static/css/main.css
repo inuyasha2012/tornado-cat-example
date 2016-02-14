@@ -1,0 +1,97 @@
+body {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #eee;
+}
+
+.list-group {
+    width: 600px;
+    margin: auto;
+    padding: 50px;
+    background-color: #ffffff;
+}
+
+.list-group-item:first-child {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.list-group-item:last-child {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.list-group-item {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+    width: 400px;
+}
+
+.form-que {
+    width: 600px;
+    margin: auto;
+    padding: 100px;
+    background-color: #ffffff;
+}
+
+.que-btn {
+    width: 100px;
+    margin: auto;
+}
+
+.list-choice {
+    display: block;
+    padding-left: 10px;
+    padding-bottom: 3px;
+    padding-top: 3px;
+    margin-bottom: 3px;
+    word-break: break-all;
+    text-align: justify;
+    cursor: pointer;
+}
+
+.list-choice:hover, .list-choice-checked {
+    background-color: #337ab7;
+    color: #ffffff;
+}
+
+.current {
+    float: right;
+}
+
+#total, #current, #que, #choice, #count-down {
+    display: none;
+}
+
+.time {
+    float: left;
+}
+
+.progress-time {
+    margin-top: 20px;
+}
+
+.modal-sm {
+    margin-top: 150px;
+}
+
+.table {
+    background-color: #ffffff;
+    margin: auto;
+}
+
+td, th {
+text-align: center;
+vertical-align: middle;
+}
+
+.table-container {
+    padding: 100px;
+    background-color: #ffffff;
+}
+
+.link {
+    margin-top: -50px;
+    margin-bottom: 20px;
+}

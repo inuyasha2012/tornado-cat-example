@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="{{ static_url("css/bootstrap.css") }}" rel="stylesheet">
+    <link href="{{ static_url("css/main.css") }}" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <div class="table-container">
+        <div class="link">
+            <ul class="nav nav-pills">
+                <li role="presentation"><a href="/">回到首页</a></li>
+                <li role="presentation"><a href="/cat/{{ q_id }}">重做测验</a></li>
+            </ul>
+        </div>
+        <table class="table table-striped table-hover table-bordered table-condensed">
+            <thead>
+            <tr>
+                <th>顺序</th>
+                <th>题号</th>
+                <th>选项</th>
+                <th>得分</th>
+                <th>区分度</th>
+                <th>难度</th>
+                <th>信息函数值</th>
+                <th>特质估计值</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% set order_answer = q_a.order_answer %}
+            {% set score_answer = q_a.score_answer %}
+            {% for i in range(1, len(order_answer) + 1)  %}
+            {% set value = str(order_answer[str(i)]) %}
+            <tr>
+                <td>{{ i }}</td>
+                <td>{{ value }}</td>
+                <td>{{ score_answer[value]['choice'] }}</td>
+                <td>{{ score_answer[value]['score'] }}</td>
+                <td>{{ score_answer[value]['slop'] }}</td>
+                <td>{{ score_answer[value]['threshold'] }}</td>
+                <td>{{ score_answer[value].get('info', '')}}</td>
+                <td>{{ score_answer[value].get('theta', '') }}</td>
+            </tr>
+            {% end %}
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
