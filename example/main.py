@@ -79,7 +79,7 @@ class QuestionHandler(SessionBaseHandler):
         step_count = '%s_step_count' % q_id
 
         # 被试答题的过程
-        flow = Flow(q.flow)
+        flow = Flow(flow=q.flow, name=session.session_key)
 
         # 如果session不存在is_X_start_id，说明被试可能关闭了浏览器，所以重新启动测验
         if not session.get(is_re_start, True):

@@ -20,7 +20,7 @@ class EAP:
         weight = self.weights
         return np.sum(weight * self.lik_values)
 
-
+    @property
     def res(self):
         return self.g / self.h
 
@@ -59,6 +59,6 @@ if __name__ == '__main__':
         b0 = np.random.normal(size=10)
         score0 = np.random.binomial(1, LogisticModel(a0, b0, theta).prob_values, 10)
         eap = EAP(score0, a0, b0)
-        eap.res()
+        print eap.res
     e = time.clock()
     print e - s

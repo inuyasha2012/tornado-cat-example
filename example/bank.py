@@ -4,7 +4,8 @@ from psycopg2.extras import Json
 from tornado import gen
 from tornado.web import HTTPError
 import numpy as np
-from irt import GrmIRTInfo, GradeResponseIrtModel, BrmIRTInfo, BinaryResponseIrtModel
+from irt import GrmIRTInfo, GradeResponseIrtModel, BrmIRTInfo
+from eap import EAP
 from utils import Flow, get_has_answered_que_id_list, del_session, get_threshold
 import random
 
@@ -302,7 +303,7 @@ class BaseSelectQuestion:
             # 修改为适合json field
             ans.score_answer[str(que_id)].update({'info': info, 'theta': self.theta})
             # 被试答题过程
-            flow = Flow(q.flow)
+            flow = Flow(flow=q.flow, name=session.session_key)
 
             if session['%s_stage' % q_id] == flow.level_len + 1:
                 # 上面是结束规则
@@ -351,7 +352,7 @@ class BrmSelectQuestion(BaseSelectQuestion):
         return BrmShadowBank
 
     def get_theta(self):
-        return BinaryResponseIrtModel(a=self.a, b=self.b, score=self.score).get_est_theta(0)
+        return EAP(a=self.a, b=self.b, score=self.score).res
 
     def get_info(self):
         return BrmIRTInfo(self.a, self.b, self.theta).get_test_info()

@@ -2,6 +2,7 @@
 from collections import namedtuple
 import random
 import string
+import weakref
 
 
 class CachedProperty(object):
@@ -33,11 +34,11 @@ def get_random_string(length=32, allowed_chars=string.ascii_lowercase + string.d
     return ''.join(random.choice(allowed_chars) for i in range(length))
 
 
-class Flow:
+class Flow(object):
     """
     因为http是无状态的,so加入了这个，自适应测验流程的相关方法、属性
 
-    >>> flow = Flow('3|4|5')
+    >>> flow = Flow(name='abc', flow='3|4|5')
     >>> flow.level_list
     [3, 4, 5]
     >>> flow.level_len
@@ -57,7 +58,10 @@ class Flow:
     >>> flow.get_below_level_item_count(3)
     12
     """
-    def __init__(self, flow, sep='|'):
+
+    _cache = weakref.WeakValueDictionary()
+
+    def __init__(self, name, flow, sep='|'):
         """
         初始化
         :param flow: 形如'3|4|5'的字符串, str
@@ -78,13 +82,13 @@ class Flow:
         except ValueError:
             raise ValueError(u"flow中的非%s字符必须是数字" % sep)
 
-    @property
+    @cached_property
     def total_item_count(self):
         # 测验流程中总共需要做多少题
         level_list = self.level_list
         return sum(level_list)
 
-    @property
+    @cached_property
     def level_len(self):
         # 总层数
         level_list = self.level_list
@@ -104,6 +108,11 @@ class Flow:
         levels = self.level_list
         return sum(levels[:_round])
 
+    def __new__(cls, name, flow, sep='|'):
+        if name not in cls._cache:
+            instance = super(Flow, cls).__new__(cls)
+            cls._cache[name] = instance
+        return cls._cache[name]
 
 def get_quiz_stage(step, stage, flow):
     """
