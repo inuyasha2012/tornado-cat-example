@@ -13,7 +13,7 @@ class EAP:
     def g(self):
         x = self.x_nodes
         weight = self.weights
-        return np.sum(np.sqrt(2)*x[:, 0]*weight*self.lik_values)
+        return np.sum(x[:, 0]*weight*self.lik_values)
 
     @property
     def h(self):
@@ -53,12 +53,14 @@ class EAP:
 if __name__ == '__main__':
     import time
     s = time.clock()
+    error = np.zeros(10000)
     for i in range(10000):
         theta = np.random.normal(size=1)
         a0 = np.random.uniform(1, 3, 10)
         b0 = np.random.normal(size=10)
         score0 = np.random.binomial(1, LogisticModel(a0, b0, theta).prob_values, 10)
         eap = EAP(score0, a0, b0)
-        print eap.res
+        error[i] = np.abs(theta - eap.res)
+    print np.mean(error)
     e = time.clock()
     print e - s
