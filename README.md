@@ -1,11 +1,6 @@
 # tornado-cat-example
 这是一个基于tornado的计算机自适应测验.数据库使用的是postgresql.
 
-## 谁参考了
-* [北森](http://www.beisen.com/)
-  * [北森能力测验CATA背后的五大关键环节](http://www.beisen.com/res/resarticle/catid/3611.html)
-* [云网学习](http://app.iyunwang.com/)
-
 ## IRT模型
 * 双参数二级计分模型(Binary Response Model)
 * 等级计分模型(Grade Response Model)
